@@ -1,25 +1,9 @@
+import { calBookingHref, getCalConfig } from "@/lib/cal";
+
 // Outbound destinations and public navigation for the Medlyn site.
 export const APP_URL = process.env.NEXT_PUBLIC_APP_URL || "https://app.medlyn.health";
-export const CAL_ORIGIN = "https://cal.eu";
 
-/** Cal.eu event path, for example `medlyn/clinic`. Empty until configured. */
-export function calEventPath(): string {
-  const raw = process.env.NEXT_PUBLIC_CAL_LINK?.trim() ?? "";
-  if (!raw) return "";
-  if (raw.startsWith("http://") || raw.startsWith("https://")) {
-    try {
-      return new URL(raw).pathname.replace(/^\/+|\/+$/g, "");
-    } catch {
-      return "";
-    }
-  }
-  return raw.replace(/^\/+|\/+$/g, "");
-}
-
-export function calBookingHref(): string {
-  const path = calEventPath();
-  return path ? `${CAL_ORIGIN}/${path}` : CAL_ORIGIN;
-}
+export { calBookingHref, getCalConfig };
 
 export const AUSTRIAN_STARTUPS_URL = "https://www.austrianstartups.com/";
 export const AIM_AUSTRIA_URL = "https://aim-austria.org/";

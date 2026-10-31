@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { CAL_ORIGIN } from "./site-config";
 
 type CalApi = ((...args: unknown[]) => void) & { q?: unknown[] };
 
@@ -11,28 +10,35 @@ declare global {
   }
 }
 
-const EMBED_SRC = "https://app.cal.eu/embed/embed.js";
+const embedPromises = new Map<string, Promise<void>>();
 
-let embedPromise: Promise<void> | null = null;
-
-function loadCalEmbed(): Promise<void> {
-  if (embedPromise) return embedPromise;
-  embedPromise = new Promise((resolve, reject) => {
+function loadCalEmbed(embedSrc: string): Promise<void> {
+  const existing = embedPromises.get(embedSrc);
+  if (existing) return existing;
+  const promise = new Promise<void>((resolve, reject) => {
+    const found = document.querySelector<HTMLScriptElement>(`script[src="${embedSrc}"]`);
+    if (found) {
+      resolve();
+      return;
+    }
     const script = document.createElement("script");
-    script.src = EMBED_SRC;
+    script.src = embedSrc;
     script.async = true;
     script.onload = () => resolve();
     script.onerror = () => {
-      embedPromise = null;
-      reject(new Error("Cal.eu embed failed to load"));
+      embedPromises.delete(embedSrc);
+      reject(new Error("Cal embed failed to load"));
     };
     document.head.appendChild(script);
   });
-  return embedPromise;
+  embedPromises.set(embedSrc, promise);
+  return promise;
 }
 
 export function BookingCalendar({
   calLink,
+  origin,
+  embedSrc,
   name,
   email,
   notes,
@@ -40,6 +46,8 @@ export function BookingCalendar({
   onError,
 }: {
   calLink: string;
+  origin: string;
+  embedSrc: string;
   name: string;
   email: string;
   notes: string;
@@ -59,13 +67,13 @@ export function BookingCalendar({
     const slot = slotRef.current;
     if (!slot) return;
     let cancelled = false;
-    loadCalEmbed()
+    loadCalEmbed(embedSrc)
       .then(() => {
         if (cancelled || !window.Cal) {
           if (!cancelled) onErrorRef.current();
           return;
         }
-        window.Cal("init", { origin: CAL_ORIGIN });
+        window.Cal("init", { origin });
         window.Cal("inline", {
           elementOrSelector: slot,
           calLink,
@@ -85,7 +93,7 @@ export function BookingCalendar({
       cancelled = true;
       slot.replaceChildren();
     };
-  }, [calLink, email, name, notes]);
+  }, [calLink, email, embedSrc, name, notes, origin]);
 
   return <div ref={slotRef} className="min-h-[40rem] w-full overflow-auto" />;
 }

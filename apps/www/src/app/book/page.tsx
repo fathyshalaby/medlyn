@@ -1,5 +1,5 @@
 import { BookingFunnel } from "@/components/booking-funnel";
-import { calBookingHref, calEventPath } from "@/components/site-config";
+import { getCalConfig } from "@/components/site-config";
 import { SiteFrame } from "@/components/site-frame";
 import { bookDescription, pageMetadata } from "@/lib/seo";
 
@@ -8,6 +8,8 @@ export const metadata = pageMetadata("Book a call", bookDescription, "/book");
 const STEPS = ["Your clinic", "A short call", "We fit Medlyn to your record system"];
 
 export default function BookPage() {
+  const cal = getCalConfig();
+
   return (
     <SiteFrame page="book">
       <article className="mx-auto max-w-[96rem] px-[1.6rem] pt-[4rem] pb-[10rem] tablet:px-[3.2rem]">
@@ -27,7 +29,13 @@ export default function BookPage() {
             </li>
           ))}
         </ol>
-        <BookingFunnel calLink={calEventPath()} fallbackHref={calBookingHref()} />
+        <BookingFunnel
+          bookingHref={cal.bookingHref}
+          configured={cal.configured}
+          embedSrc={cal.embedSrc}
+          eventPath={cal.eventPath}
+          origin={cal.origin}
+        />
       </article>
     </SiteFrame>
   );

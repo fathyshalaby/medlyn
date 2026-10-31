@@ -1,7 +1,8 @@
 # Medlyn search and indexing
 
-The public landing page describes a clinical documentation prototype. It is the only
-indexable route. The patient app is a separate origin and must stay out of search.
+The public landing site describes a clinical documentation prototype. Indexable
+routes are `/`, `/vision`, `/research`, and `/book`. The patient app is a separate
+origin and must stay out of search.
 Patient records, conversations, review text and generated letters never belong in
 metadata, structured data, social images or public sitemaps.
 
@@ -25,16 +26,19 @@ Set these deployment environment variables **before building**:
 ```dotenv
 NEXT_PUBLIC_SITE_URL=https://example.com
 NEXT_PUBLIC_APP_URL=https://app.example.com
+NEXT_PUBLIC_CAL_LINK=medlyn/clinic
+NEXT_PUBLIC_CAL_ORIGIN=https://cal.eu
 ```
 
-Replace both example origins with the deployed HTTPS origins. Only the origin is
-used for canonical URLs; paths, query strings and fragments are discarded. Invalid
-URLs, non-HTTP(S) URLs and URLs containing credentials fail configuration validation.
-`NEXT_PUBLIC_*` values are public. Do not put secrets in them. The landing app does
-not load the repository's root `.env` itself: export the values in the build
-environment, or have the orchestrator add root-env loading to its Next config.
-When using Turbo, add `NEXT_PUBLIC_SITE_URL` to `turbo.json`'s `globalEnv` (the app URL
-is already listed) so it is passed through and invalidates cached builds.
+Replace the site and app example origins with the deployed HTTPS origins. Only the
+origin is used for canonical URLs; paths, query strings and fragments are discarded.
+Invalid URLs, non-HTTP(S) URLs and URLs containing credentials fail configuration
+validation. `NEXT_PUBLIC_*` values are public. Do not put secrets in them. The landing
+app does not load the repository's root `.env` itself: export the values in the build
+environment, or have the orchestrator add root-env loading to its Next config. When
+using Turbo, keep `NEXT_PUBLIC_SITE_URL`, `NEXT_PUBLIC_APP_URL`, `NEXT_PUBLIC_CAL_LINK`
+and `NEXT_PUBLIC_CAL_ORIGIN` in `turbo.json`'s `globalEnv` so they pass through and
+invalidate cached builds.
 
 The generated routes are:
 
@@ -62,10 +66,12 @@ as an alternate plain-text description. Robots allow all crawlers on this origin
 including answer-engine crawlers. Do not put patient text or challenge passages
 in `llms.txt`, page copy, or structured data.
 
-`NEXT_PUBLIC_CAL_LINK` is the Cal.eu event path, for example `medlyn/clinic`. Leave
-it empty to show a plain `https://cal.eu` link on `/book`. Add it to `turbo.json`
-`globalEnv` when it changes, alongside the public origins. It is public. Do not put
-a secret in it.
+`NEXT_PUBLIC_CAL_LINK` switches the public booking event without a code change. Use
+an event path such as `medlyn/clinic`, or a full Cal URL. Leave it empty to hide the
+booking form on `/book` until a link is set. `NEXT_PUBLIC_CAL_ORIGIN` sets the host
+for a bare path; it defaults to `https://cal.eu` and can be switched to
+`https://cal.com` or a self-hosted origin. When `NEXT_PUBLIC_CAL_LINK` is a full URL,
+that URL's origin wins. Both values are public. Do not put a secret in them.
 
 The page renders safely escaped JSON-LD with an Organization, WebSite and
 SoftwareApplication (`HealthApplication`, `Web`, freely accessible demo). There is
