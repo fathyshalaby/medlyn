@@ -1,11 +1,11 @@
+import Link from "next/link";
 import { cn } from "./cn";
-import { GitHubIcon } from "./icons";
-import { APP_URL, GITHUB_URL } from "./site-config";
+import { APP_URL } from "./site-config";
 
 const buttonFocus =
   "group-focus-visible/button:border-blue-500 group-focus-visible/button:shadow-[0_0_0_3px_rgba(66,181,220,0.30)]";
 
-/** Frosted pill with the primary "Get started" action and a GitHub link. */
+/** Frosted pill with the demo action and a booking link. */
 export function HeroActions({ className }: { className?: string }) {
   return (
     <div
@@ -32,10 +32,8 @@ export function HeroActions({ className }: { className?: string }) {
           Get started
         </span>
       </a>
-      <a
-        href={GITHUB_URL}
-        target="_blank"
-        rel="noopener noreferrer"
+      <Link
+        href="/book"
         className="group/button relative isolate inline-flex h-full shrink-0 cursor-pointer text-body-sm outline-hidden"
       >
         <span
@@ -45,10 +43,9 @@ export function HeroActions({ className }: { className?: string }) {
             buttonFocus,
           )}
         >
-          <GitHubIcon className="size-[1.8rem]" />
-          GitHub
+          Book a call
         </span>
-      </a>
+      </Link>
     </div>
   );
 }

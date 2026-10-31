@@ -1,4 +1,5 @@
 import { Cta } from "@/components/cta";
+import { DecisionBand } from "@/components/decision-band";
 import { Faq } from "@/components/faq";
 import { FeaturesCarousel } from "@/components/features-carousel";
 import { Footer } from "@/components/footer";
@@ -20,6 +21,7 @@ export default function Home() {
       <SmoothScroll>
         <main className="relative z-[1] bg-background-primary">
           <Hero />
+          <DecisionBand />
           <section
             aria-label="How Medlyn works"
             className="mb-[10rem] bg-background-primary pt-[10rem] tablet:mb-0 tablet:pt-[15rem] desktop:pt-[27rem]"

@@ -14,7 +14,7 @@ import {
 import { cn } from "./cn";
 import { LogoMark, Wordmark } from "./icons";
 import { DURATION, EASE, gsap, isTouchDevice } from "./motion";
-import { APP_URL, GITHUB_URL, HACKATHON_URL } from "./site-config";
+import { APP_URL, DEMO_LINK, NAV_LINKS, type PublicLink } from "./site-config";
 
 // Width of the wordmark slot next to the logo mark (58px text + 6px gap).
 const WORDMARK_WIDTH = 64;
@@ -100,20 +100,13 @@ function NavItem({
   );
 }
 
-type NavLink = {
-  label: string;
-  href: string;
-  theme?: NavItemTheme;
-  external?: boolean;
-};
-
 function DesktopNav({
   className,
   items,
   withLogo,
 }: {
   className: string;
-  items: NavLink[];
+  items: PublicLink[];
   withLogo?: boolean;
 }) {
   const navRef = useRef<HTMLElement>(null);
@@ -233,11 +226,6 @@ function DesktopNav({
     </nav>
   );
 }
-
-const MOBILE_LINKS = [
-  { label: "Track", href: HACKATHON_URL },
-  { label: "GitHub", href: GITHUB_URL },
-];
 
 function MobileNav() {
   const { collapsed } = useNav();
@@ -361,17 +349,15 @@ function MobileNav() {
       >
         <div className="relative left-1/2 w-[calc(100vw-32px)] -translate-x-1/2 px-pad-xs">
           <div ref={contentRef} className="flex w-full flex-col justify-start pt-32 pb-4">
-            {MOBILE_LINKS.map((link) => (
-              <a
+            {NAV_LINKS.map((link) => (
+              <Link
                 key={link.label}
                 className="mb-2 block min-h-9 w-full text-left text-heading-lg"
                 href={link.href}
-                {...(link.href.startsWith("#")
-                  ? { onClick: toggle }
-                  : { target: "_blank", rel: "noopener noreferrer" })}
+                onClick={toggle}
               >
                 <p>{link.label}</p>
-              </a>
+              </Link>
             ))}
             <a
               className="group/button relative isolate mt-[2rem] inline-flex h-11.5 cursor-pointer text-body-sm outline-hidden"
@@ -418,18 +404,8 @@ export function SiteNav() {
 
   return (
     <>
-      <DesktopNav
-        withLogo
-        className="left-1/2 -translate-x-1/2"
-        items={[
-          { label: "Track", href: HACKATHON_URL, external: true },
-          { label: "GitHub", href: GITHUB_URL, external: true },
-        ]}
-      />
-      <DesktopNav
-        className="right-5.5"
-        items={[{ label: "Get started", href: APP_URL, theme: "orange", external: true }]}
-      />
+      <DesktopNav withLogo className="left-1/2 -translate-x-1/2" items={NAV_LINKS} />
+      <DesktopNav className="right-5.5" items={[DEMO_LINK]} />
       <MobileNav />
     </>
   );

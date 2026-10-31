@@ -44,6 +44,7 @@ export default function RootLayout({
       lang="en"
       className={`${dmSans.variable} ${dmMono.variable} ${abcMarist.variable} antialiased`}
     >
+      <link rel="alternate" href="/llms.txt" title="LLMs" type="text/plain" />
       <body className="bg-background-primary font-body antialiased">{children}</body>
     </html>
   );

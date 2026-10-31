@@ -10,6 +10,9 @@ const nextConfig: NextConfig = {
   outputFileTracingExcludes: {
     "/*": ["../../.env*", "../../data/**", "../../TRACK-1-*/**", "../../ml/**"],
   },
+  outputFileTracingIncludes: {
+    "/research/medlyn.pdf": ["../../paper/main.pdf"],
+  },
 };
 
 export default nextConfig;

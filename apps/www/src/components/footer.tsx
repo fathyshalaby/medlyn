@@ -1,21 +1,20 @@
+import Link from "next/link";
 import { ChevronRightIcon, LogoMark, Wordmark } from "./icons";
-import { APP_URL, GITHUB_URL, HACKATHON_URL } from "./site-config";
+import { DEMO_LINK, type PublicLink } from "./site-config";
+import { SupportLine } from "./support-line";
 
-const LINK_GROUPS = [
+const LINK_GROUPS: { title: string; className: string; links: PublicLink[] }[] = [
   {
-    title: "Project",
+    title: "Product",
     className: "min-w-[49%] tablet:min-w-0",
-    links: [
-      { label: "Get started", href: APP_URL, external: true },
-      { label: "GitHub", href: GITHUB_URL, external: true },
-    ],
+    links: [DEMO_LINK, { label: "Book a call", href: "/book" }],
   },
   {
-    title: "Event",
+    title: "Company",
     className: "min-w-[49%] tablet:min-w-0",
     links: [
-      { label: "AIM Hackathon", href: HACKATHON_URL, external: true },
-      { label: "Track 1: Clinical Documentation", href: HACKATHON_URL, external: true },
+      { label: "Vision", href: "/vision" },
+      { label: "Research", href: "/research" },
     ],
   },
 ];
@@ -36,7 +35,7 @@ export function Footer() {
             </p>
             <a
               className="group/button relative isolate inline-flex h-10 cursor-pointer text-body-sm outline-hidden tablet:h-10.5"
-              href={APP_URL}
+              href={DEMO_LINK.href}
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -58,16 +57,20 @@ export function Footer() {
                   <dt className="mb-[1rem] text-body-sm text-text-secondary">{group.title}</dt>
                   {group.links.map((link) => (
                     <dd key={link.label} className="mb-[0.7rem] text-body-sm text-text-primary">
-                      <a
-                        className={linkClassName}
-                        href={link.href}
-                        target={"external" in link && link.external ? "_blank" : undefined}
-                        rel={
-                          "external" in link && link.external ? "noopener noreferrer" : undefined
-                        }
-                      >
-                        {link.label}
-                      </a>
+                      {link.external ? (
+                        <a
+                          className={linkClassName}
+                          href={link.href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          {link.label}
+                        </a>
+                      ) : (
+                        <Link className={linkClassName} href={link.href}>
+                          {link.label}
+                        </Link>
+                      )}
                     </dd>
                   ))}
                 </dl>
@@ -76,11 +79,8 @@ export function Footer() {
             <div className="mt-auto flex gap-[1.6rem] tablet:mt-0 tablet:block">
               <LogoMark className="w-[3.4rem] fill-current tablet:mb-[1.2rem] tablet:w-[4.3rem]" />
               <div className="flex flex-col items-start gap-[0.8rem]">
-                <p className="text-label-lg">
-                  © 2026 Medlyn.
-                  <br />
-                  Built for the AIM Hackathon.
-                </p>
+                <p className="text-label-lg">© 2026 Medlyn.</p>
+                <SupportLine className="text-left" />
               </div>
             </div>
           </div>

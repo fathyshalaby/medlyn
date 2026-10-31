@@ -1,6 +1,11 @@
 {
   "$schema": "https://turbo.build/schema.json",
-  "globalEnv": ["NEXT_PUBLIC_APP_URL", "NEXT_PUBLIC_SITE_URL", "MEDLYN_MOCK"],
+  "globalEnv": [
+    "NEXT_PUBLIC_APP_URL",
+    "NEXT_PUBLIC_CAL_LINK",
+    "NEXT_PUBLIC_SITE_URL",
+    "MEDLYN_MOCK"
+  ],
   "globalPassThroughEnv": [
     "DATABASE_URL",
     "MEDLYN_DATA_PATH",
