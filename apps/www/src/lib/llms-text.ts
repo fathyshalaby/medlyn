@@ -30,7 +30,7 @@ const intro = `${siteDescription}
 
 Medlyn built its own decision model. It checks a statement against the passage it cites before that statement is shown. The method and the measurements are in the technical report. The results are agent-reviewed, not clinician-reviewed, and do not establish clinical efficacy.
 
-Medlyn is supported by Austrian Startups, IM, AIM Austria, and public funding.
+Medlyn is supported by Austrian Startups, IBM, AIM Austria, and public funding.
 
 Medlyn is operated by ${company.legalName}.
 

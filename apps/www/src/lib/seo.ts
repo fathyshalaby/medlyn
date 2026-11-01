@@ -133,7 +133,7 @@ export const faqQuestions = [
   {
     question: "Who built Medlyn?",
     answer:
-      "The Medlyn team. Medlyn is supported by Austrian Startups, IM, AIM Austria, and public funding.",
+      "The Medlyn team. Medlyn is supported by Austrian Startups, IBM, AIM Austria, and public funding.",
   },
   {
     question: "Does Medlyn have its own model?",
@@ -150,6 +150,6 @@ export const faqQuestions = [
   },
   {
     question: "Who supports Medlyn?",
-    answer: "Medlyn is supported by Austrian Startups, IM, AIM Austria, and public funding.",
+    answer: "Medlyn is supported by Austrian Startups, IBM, AIM Austria, and public funding.",
   },
 ];

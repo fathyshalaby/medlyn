@@ -6,13 +6,14 @@ export const APP_URL = process.env.NEXT_PUBLIC_APP_URL || "https://app.medlyn.he
 export { calBookingHref, getCalConfig };
 
 export const AUSTRIAN_STARTUPS_URL = "https://www.austrianstartups.com/";
+export const IBM_URL = "https://www.ibm.com/";
 export const AIM_AUSTRIA_URL = "https://aim-austria.org/";
 
 export type Supporter = { name: string; href?: string };
 
 export const supporters: readonly Supporter[] = [
   { name: "Austrian Startups", href: AUSTRIAN_STARTUPS_URL },
-  { name: "IM" },
+  { name: "IBM", href: IBM_URL },
   { name: "AIM Austria", href: AIM_AUSTRIA_URL },
   { name: "public funding" },
 ];
