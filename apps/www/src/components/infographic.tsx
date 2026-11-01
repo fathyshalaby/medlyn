@@ -268,7 +268,7 @@ export function Infographic() {
     <section
       id="infographic"
       ref={sectionRef}
-      className="relative flex min-h-[100svh] w-full min-w-[394px] items-center justify-center"
+      className="relative flex min-h-[100svh] w-full max-w-full items-center justify-center overflow-x-clip"
     >
       <div className="relative h-[15rem] w-full">
         <div className="absolute top-1/2 left-1/2 flex w-full translate-x-[-50%] translate-y-[-50%] flex-col items-center justify-center text-center">

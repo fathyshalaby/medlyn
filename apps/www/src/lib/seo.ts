@@ -11,14 +11,45 @@ function siteOrigin(value: string): URL {
 export const siteName = "Medlyn";
 export const siteUrl = siteOrigin(process.env.NEXT_PUBLIC_SITE_URL || "https://medlyn.health");
 export const appUrl = siteOrigin(process.env.NEXT_PUBLIC_APP_URL || "https://app.medlyn.health");
-export const githubUrl = "https://github.com/Julian-AT/medlyn";
 export const siteTitle = "Source-linked patient summaries · Medlyn";
 export const siteDescription =
   "Medlyn is a clinical documentation AI prototype that gives clinicians task-focused patient summaries, with each fact linked to its source in the patient record.";
 export const siteTagline = "The facts your task needs, with sources.";
 export const themeColor = "#f9f8f5";
 // Update when the public page's content changes, not on every deployment.
-export const contentUpdatedAt = "2026-10-30";
+export const contentUpdatedAt = "2026-10-31";
+export const paperPath = "/research/medlyn.pdf";
+export const paperTitle = "Medlyn: Task-Specific Clinical Views from Located Evidence";
+export const decisionModelSentence =
+  "Medlyn built its own decision model. It checks a statement against the passage it cites before that statement is shown.";
+export const researchCaveat =
+  "The results are agent-reviewed, not clinician-reviewed, and do not establish clinical efficacy.";
+export const visionDescription =
+  "Medlyn is building a brief every doctor can trust, so every person in their care gets a clinician who had time to think.";
+export const researchDescription =
+  "Medlyn's technical report: task-specific clinical views from located evidence, and the decision model that checks each statement against its source.";
+export const bookDescription =
+  "Book a call to talk about adding Medlyn to your clinic's record system.";
+
+export function pageMetadata(title: string, description: string, path: string): Metadata {
+  return {
+    title,
+    description,
+    alternates: { canonical: path },
+    openGraph: {
+      title,
+      description,
+      url: path,
+      images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: siteTagline }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [{ url: "/twitter-image", alt: siteTagline }],
+    },
+  };
+}
 
 export const siteMetadata: Metadata = {
   metadataBase: siteUrl,
@@ -102,6 +133,23 @@ export const faqQuestions = [
   {
     question: "Who built Medlyn?",
     answer:
-      "A team at the AIM Hackathon, for Track 1: Clinical Documentation. The code is open on GitHub.",
+      "The Medlyn team. Medlyn is supported by Austrian Startups, IBM, AIM Austria, and public funding.",
+  },
+  {
+    question: "Does Medlyn have its own model?",
+    answer: `${decisionModelSentence} The method and the measurements are in the technical report.`,
+  },
+  {
+    question: "Where can I read the research?",
+    answer: `The technical report is on the research page, with the PDF. ${researchCaveat}`,
+  },
+  {
+    question: "Can we add Medlyn to our system?",
+    answer:
+      "Book a call on this site. The call is the conversation about adding Medlyn to a clinic's record system. The public demo still uses demo records only.",
+  },
+  {
+    question: "Who supports Medlyn?",
+    answer: "Medlyn is supported by Austrian Startups, IBM, AIM Austria, and public funding.",
   },
 ];

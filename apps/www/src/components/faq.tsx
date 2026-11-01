@@ -87,7 +87,7 @@ export function Faq() {
       <h2 className="mb-[3.2rem] text-heading-lg !leading-none">FAQ</h2>
       <div
         ref={listRef}
-        className="isolate w-full max-w-[68rem] tablet:w-1/2 tablet:max-w-none desktop:w-[30%] desktop:min-w-[54rem]"
+        className="isolate flex w-full max-w-[68rem] flex-col gap-[0.8rem] tablet:w-1/2 tablet:max-w-none desktop:w-[30%] desktop:min-w-[54rem]"
       >
         {QUESTIONS.map((item, index) => (
           <FaqItem

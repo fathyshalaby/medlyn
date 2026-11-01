@@ -119,6 +119,11 @@
 
 @custom-variant supports-hover (@media (hover: hover));
 
+html {
+  /* Fixed nav is top-4 + ~4.8rem tall; keep hash targets clear of it. */
+  scroll-padding-top: 9.6rem;
+}
+
 @theme {
   --breakpoint-tablet: 1024px;
   --breakpoint-desktop: 1280px;

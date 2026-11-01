@@ -1,4 +1,5 @@
 import { Cta } from "@/components/cta";
+import { DecisionBand } from "@/components/decision-band";
 import { Faq } from "@/components/faq";
 import { FeaturesCarousel } from "@/components/features-carousel";
 import { Footer } from "@/components/footer";
@@ -7,9 +8,9 @@ import { HowItWorksIntro } from "@/components/how-it-works-intro";
 import { Infographic } from "@/components/infographic";
 import { Locations } from "@/components/locations";
 import { NavProvider } from "@/components/nav-context";
+import { ProductIntro } from "@/components/product-intro";
 import { SiteNav } from "@/components/site-nav";
 import { SmoothScroll } from "@/components/smooth-scroll";
-import { StaticFeatures } from "@/components/static-features";
 import { StructuredData } from "@/components/structured-data";
 
 export default function Home() {
@@ -20,6 +21,8 @@ export default function Home() {
       <SmoothScroll>
         <main className="relative z-[1] bg-background-primary">
           <Hero />
+          <ProductIntro />
+          <DecisionBand />
           <section
             aria-label="How Medlyn works"
             className="mb-[10rem] bg-background-primary pt-[10rem] tablet:mb-0 tablet:pt-[15rem] desktop:pt-[27rem]"
@@ -29,7 +32,6 @@ export default function Home() {
           </section>
           <Infographic />
           <Locations />
-          <StaticFeatures />
           <Faq />
           <Cta />
         </main>

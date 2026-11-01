@@ -1,7 +1,8 @@
 # Medlyn search and indexing
 
-The public landing page describes a clinical documentation prototype. It is the only
-indexable route. The patient app is a separate origin and must stay out of search.
+The public landing site describes a clinical documentation prototype. Indexable
+routes are `/`, `/vision`, `/research`, and `/book`. The patient app is a separate
+origin and must stay out of search.
 Patient records, conversations, review text and generated letters never belong in
 metadata, structured data, social images or public sitemaps.
 
@@ -25,22 +26,33 @@ Set these deployment environment variables **before building**:
 ```dotenv
 NEXT_PUBLIC_SITE_URL=https://example.com
 NEXT_PUBLIC_APP_URL=https://app.example.com
+NEXT_PUBLIC_CAL_LINK=medlyn/clinic
+NEXT_PUBLIC_CAL_ORIGIN=https://cal.eu
 ```
 
-Replace both example origins with the deployed HTTPS origins. Only the origin is
-used for canonical URLs; paths, query strings and fragments are discarded. Invalid
-URLs, non-HTTP(S) URLs and URLs containing credentials fail configuration validation.
-`NEXT_PUBLIC_*` values are public. Do not put secrets in them. The landing app does
-not load the repository's root `.env` itself: export the values in the build
-environment, or have the orchestrator add root-env loading to its Next config.
-When using Turbo, add `NEXT_PUBLIC_SITE_URL` to `turbo.json`'s `globalEnv` (the app URL
-is already listed) so it is passed through and invalidates cached builds.
+Replace the site and app example origins with the deployed HTTPS origins. Only the
+origin is used for canonical URLs; paths, query strings and fragments are discarded.
+Invalid URLs, non-HTTP(S) URLs and URLs containing credentials fail configuration
+validation. `NEXT_PUBLIC_*` values are public. Do not put secrets in them. The landing
+app does not load the repository's root `.env` itself: export the values in the build
+environment, or have the orchestrator add root-env loading to its Next config. When
+using Turbo, keep `NEXT_PUBLIC_SITE_URL`, `NEXT_PUBLIC_APP_URL`, `NEXT_PUBLIC_CAL_LINK`
+and `NEXT_PUBLIC_CAL_ORIGIN` in `turbo.json`'s `globalEnv` so they pass through and
+invalidate cached builds.
 
 The generated routes are:
 
 | Route                   | Purpose                                                   |
 | ----------------------- | --------------------------------------------------------- |
-| `/sitemap.xml`          | Only `/`, with a content modification date                |
+| `/`                     | Product page, including the decision model and supporters |
+| `/vision`               | Why Medlyn exists                                         |
+| `/research`             | Technical report summary                                  |
+| `/research/medlyn.pdf`  | The paper PDF, read from `paper/main.pdf` at request time |
+| `/book`                 | Clinic booking funnel and Cal.eu calendar                 |
+| `/llms.txt`             | Short markdown description for answer engines             |
+| `/llms-full.txt`        | Longer description, including the public FAQ              |
+| `/llm.txt`              | Permanent redirect to `/llms.txt`                         |
+| `/sitemap.xml`          | `/`, `/vision`, `/research`, and `/book`                  |
 | `/robots.txt`           | Allow public crawling; canonical sitemap and host         |
 | `/manifest.webmanifest` | Name, description, existing icons and standalone display  |
 | `/opengraph-image`      | 1200 × 630 PNG with the existing logo and product tagline |
@@ -49,15 +61,25 @@ The generated routes are:
 Section anchors such as `#faq` are parts of `/`, not independent pages, and are
 excluded from the sitemap. `contentUpdatedAt` changes when published copy changes,
 not automatically on every build. Next's image file conventions may add version
-queries to the image URLs in rendered metadata.
+queries to the image URLs in rendered metadata. The root layout links `/llms.txt`
+as an alternate plain-text description. Robots allow all crawlers on this origin,
+including answer-engine crawlers. Do not put patient text or challenge passages
+in `llms.txt`, page copy, or structured data.
+
+`NEXT_PUBLIC_CAL_LINK` switches the public booking event without a code change. Use
+an event path such as `medlyn/clinic`, or a full Cal URL. Leave it empty to hide the
+booking form on `/book` until a link is set. `NEXT_PUBLIC_CAL_ORIGIN` sets the host
+for a bare path; it defaults to `https://cal.eu` and can be switched to
+`https://cal.com` or a self-hosted origin. When `NEXT_PUBLIC_CAL_LINK` is a full URL,
+that URL's origin wins. Both values are public. Do not put a secret in them.
 
 The page renders safely escaped JSON-LD with an Organization, WebSite and
 SoftwareApplication (`HealthApplication`, `Web`, freely accessible demo). There is
-no invented price, commercial offer, review score, organization address or social
-account. `StructuredData` also supports FAQPage from the existing FAQ array, but
-its integration is **pending**: the array is private to a client component outside
-this lane's owned paths. Export it from a shared module and pass it to the server
-component; do not duplicate the questions or maintain a second copy.
+no invented price, commercial offer, review score, or organization address. The
+homepage also emits FAQPage from `faqQuestions` in `apps/www/src/lib/seo.ts`, which
+is the same array the visible FAQ renders. `/vision` adds AboutPage, `/research`
+adds TechArticle pointing at the PDF, and `/book` adds ContactPage. GitHub is not
+a public `sameAs` or `codeRepository` link.
 
 There is one H1 and an existing main landmark; the feature carousel's H3 headings
 follow an H2. The wrapper around the introduction and carousel now has an accessible
@@ -71,8 +93,8 @@ video's `preload="metadata"` and `poster="/images/hero-cover.jpg"`; use an appro
 high-priority LCP image loading strategy; replace the generic hero-cover alt text;
 and add `rel="nofollow"` to app CTAs (`noopener noreferrer` as well if opening a new
 tab). Decorative images should retain empty alt text and `aria-hidden` rather than
-being announced. Replace the existing GitHub and hackathon placeholder destinations
-before deployment.
+being announced. The public site does not link the hackathon track or GitHub. The
+demo, vision, research, and booking pages are the public routes.
 
 ## Patient app
 
@@ -103,8 +125,9 @@ pnpm --filter @medlyn/app exec tsc --noEmit
 pnpm --filter @medlyn/app exec next build
 ```
 
-The www build should list `/sitemap.xml`, `/robots.txt`, `/manifest.webmanifest`,
-`/opengraph-image` and `/twitter-image`. Start the production builds on separate
+The www build should list `/`, `/vision`, `/research`, `/book`, `/llms.txt`,
+`/llms-full.txt`, `/llm.txt`, `/research/medlyn.pdf`, `/sitemap.xml`, `/robots.txt`,
+`/manifest.webmanifest`, `/opengraph-image` and `/twitter-image`. Start the production builds on separate
 ports and inspect the rendered HTML and HTTP responses:
 
 - Confirm the configured canonical origin, title, 160-character description,

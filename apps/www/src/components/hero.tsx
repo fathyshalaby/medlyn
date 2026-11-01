@@ -56,18 +56,22 @@ function TaskRotator() {
   );
 
   return (
-    <div ref={rootRef} className="relative h-[3rem] w-full overflow-hidden" aria-live="polite">
+    <div
+      ref={rootRef}
+      className="relative h-[4.8rem] w-full max-w-[min(92vw,54rem)] overflow-hidden tablet:h-[3rem]"
+      aria-live="polite"
+    >
       {TASKS.map(({ label, Icon }) => (
         <div
           key={label}
           data-task-item
-          className="absolute inset-0 flex h-[3rem] items-center justify-center whitespace-nowrap opacity-0"
+          className="absolute inset-0 flex items-center justify-center px-[1.6rem] opacity-0"
         >
-          <p className="flex items-center justify-center gap-2 text-body-md text-text-white opacity-70">
-            <span className="mr-[0.3rem] inline">
+          <p className="flex max-w-full items-center justify-center gap-2 text-center text-body-sm text-text-white opacity-70 tablet:text-body-md">
+            <span className="mr-[0.3rem] hidden shrink-0 tablet:inline">
               <Icon />
             </span>
-            {label}
+            <span className="line-clamp-2 text-balance tablet:line-clamp-1">{label}</span>
           </p>
         </div>
       ))}
@@ -79,7 +83,7 @@ export function Hero() {
   const sectionRef = useRef<HTMLElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isZoomed, setIsZoomed] = useState(false);
-  const { setBgTheme } = useNav();
+  const { setBgTheme, menuOpen } = useNav();
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -120,7 +124,7 @@ export function Hero() {
     <section
       ref={sectionRef}
       aria-label="Hero section"
-      className="relative flex h-svh w-screen items-center justify-center"
+      className="relative flex h-svh w-screen items-center justify-center overflow-hidden"
     >
       <div
         className={cn(
@@ -163,8 +167,10 @@ export function Hero() {
       </div>
       <div
         className={cn(
-          "absolute bottom-[1.6rem] transition-transform duration-500 ease-out",
-          isZoomed ? "-translate-y-[50px]" : "translate-y-0",
+          "absolute bottom-[1.6rem] transition-[opacity,transform] duration-500 ease-out",
+          isZoomed || menuOpen
+            ? "pointer-events-none translate-y-4 opacity-0"
+            : "translate-y-0 opacity-100",
         )}
       >
         <HeroActions />

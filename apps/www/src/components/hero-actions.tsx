@@ -1,12 +1,18 @@
+import Link from "next/link";
 import { cn } from "./cn";
-import { GitHubIcon } from "./icons";
-import { APP_URL, GITHUB_URL } from "./site-config";
+import { APP_URL } from "./site-config";
 
 const buttonFocus =
   "group-focus-visible/button:border-blue-500 group-focus-visible/button:shadow-[0_0_0_3px_rgba(66,181,220,0.30)]";
 
-/** Frosted pill with the primary "Get started" action and a GitHub link. */
-export function HeroActions({ className }: { className?: string }) {
+/** Frosted pill with the demo action and a booking link. */
+export function HeroActions({
+  className,
+  tone = "media",
+}: {
+  className?: string;
+  tone?: "media" | "light";
+}) {
   return (
     <div
       className={cn(
@@ -32,23 +38,22 @@ export function HeroActions({ className }: { className?: string }) {
           Get started
         </span>
       </a>
-      <a
-        href={GITHUB_URL}
-        target="_blank"
-        rel="noopener noreferrer"
+      <Link
+        href="/book"
         className="group/button relative isolate inline-flex h-full shrink-0 cursor-pointer text-body-sm outline-hidden"
       >
         <span
           className={cn(
-            "z-10 flex w-full items-center gap-[0.8rem] rounded-ctas-button border-2 border-transparent px-[1.4rem] text-text-white transition-colors",
-            "group-hover/button:bg-white/15 group-active:bg-white/25",
+            "z-10 flex w-full items-center gap-[0.8rem] rounded-ctas-button border-2 border-transparent px-[1.4rem] transition-colors",
+            tone === "light"
+              ? "bg-orange-500 text-text-invert-primary group-hover/button:bg-surface-tertiary group-active:bg-black-500"
+              : "text-text-white group-hover/button:bg-white/15 group-active:bg-white/25",
             buttonFocus,
           )}
         >
-          <GitHubIcon className="size-[1.8rem]" />
-          GitHub
+          Book a call
         </span>
-      </a>
+      </Link>
     </div>
   );
 }
