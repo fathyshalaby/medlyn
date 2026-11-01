@@ -119,6 +119,10 @@
 
 @custom-variant supports-hover (@media (hover: hover));
 
+html {
+  scroll-padding-top: 8rem;
+}
+
 @theme {
   --breakpoint-tablet: 1024px;
   --breakpoint-desktop: 1280px;

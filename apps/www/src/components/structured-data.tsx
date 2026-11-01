@@ -16,7 +16,7 @@ import {
 
 type FaqEntry = { question: string; answer: string };
 
-export type PublicPage = "home" | "vision" | "research" | "book";
+export type PublicPage = "home" | "vision" | "research" | "book" | "content";
 
 export function StructuredData({
   page = "home",

@@ -25,8 +25,9 @@ export type PublicLink = {
 };
 
 export const NAV_LINKS: PublicLink[] = [
-  { label: "Vision", href: "/vision" },
+  { label: "Product", href: "/#product" },
   { label: "Research", href: "/research" },
+  { label: "Blog", href: "/blog" },
   { label: "Book a call", href: "/book" },
 ];
 

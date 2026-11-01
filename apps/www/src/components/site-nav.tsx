@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import {
   type CSSProperties,
   type FocusEvent,
@@ -48,6 +49,7 @@ function NavItem({
   href,
   theme = "white",
   isHovered,
+  active,
   external,
   ariaLabel,
   handlers,
@@ -56,6 +58,7 @@ function NavItem({
   href: string;
   theme?: NavItemTheme;
   isHovered: boolean;
+  active?: boolean;
   external?: boolean;
   ariaLabel?: string;
   handlers: ItemHandlers;
@@ -68,6 +71,7 @@ function NavItem({
     <Link
       href={href}
       aria-label={ariaLabel}
+      aria-current={active ? "page" : undefined}
       target={external ? "_blank" : undefined}
       rel={external ? "noopener noreferrer" : undefined}
       className="group relative h-10 cursor-pointer outline-hidden hover:no-underline"
@@ -81,6 +85,7 @@ function NavItem({
         className={cn(
           "nav-item-hover absolute top-0 left-0 z-0 h-full w-full rounded-[12px] transition-[background-color] duration-300 ease-out group-active:bg-(color:--nav-item-pressed)",
           idle && "bg-(color:--nav-item-bg)",
+          active && idle && "ring-1 ring-black/10",
           "group-focus-visible:border-2 group-focus-visible:border-blue-500 group-focus-visible:shadow-[0_0_0_3px_rgba(66,181,220,0.30)]",
         )}
       />
@@ -90,6 +95,7 @@ function NavItem({
           isHovered && bgTheme === "light" && "text-text-primary",
           isHovered && bgTheme === "dark" && "text-white",
           idle && "text-(color:--nav-item-text)",
+          active && idle && "font-medium",
           "transition-colors duration-150 ease-[ease]",
           "group-hover:text-(color:--nav-item-text) group-focus-visible:text-(color:--nav-item-text) group-active:text-(color:--nav-item-pressed-text)",
         )}
@@ -109,6 +115,7 @@ function DesktopNav({
   items: PublicLink[];
   withLogo?: boolean;
 }) {
+  const pathname = usePathname();
   const navRef = useRef<HTMLElement>(null);
   const pillRef = useRef<HTMLDivElement>(null);
   const markRef = useRef<HTMLSpanElement>(null);
@@ -217,6 +224,7 @@ function DesktopNav({
           href={item.href}
           theme={item.theme}
           external={item.external}
+          active={!item.external && pathname === item.href}
           isHovered={isHovered}
           handlers={handlers}
         >
@@ -228,6 +236,7 @@ function DesktopNav({
 }
 
 function MobileNav() {
+  const pathname = usePathname();
   const { collapsed } = useNav();
   const [open, setOpen] = useState(false);
   const navRef = useRef<HTMLElement>(null);
@@ -245,6 +254,21 @@ function MobileNav() {
       ease: EASE.power4Out,
     });
   }, [collapsed, open]);
+
+  useEffect(() => {
+    if (!open) return;
+    const previous = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = previous;
+    };
+  }, [open]);
+
+  // Close the sheet when the route changes, including in-app navigations.
+  // biome-ignore lint/correctness/useExhaustiveDependencies: pathname is the navigation signal.
+  useEffect(() => {
+    setOpen(false);
+  }, [pathname]);
 
   function toggle() {
     const nav = navRef.current;
@@ -302,86 +326,100 @@ function MobileNav() {
   }
 
   return (
-    <nav
-      ref={navRef}
-      aria-label="Main navigation"
-      className={cn(
-        "pointer-events-auto fixed top-4 left-1/2 z-10 w-max -translate-x-1/2 tablet:hidden",
-        open && "z-50 w-[calc(100vw-32px)]",
-      )}
-    >
-      <div
-        className={cn(
-          "pointer-events-none absolute -top-1 -left-1 h-full min-h-12 w-[calc(100%+8px)] rounded-ctas-wrapper border border-solid border-white/10 bg-stone-alpha-400 backdrop-blur-[13px]",
-          open && "h-[calc(100%+8px)]",
-        )}
-      />
-      <div ref={rowRef} className="relative z-2 flex w-max p-0">
-        <Link
-          href="/"
-          className="group relative z-2 h-10 cursor-pointer outline-hidden"
-          aria-label="Medlyn home"
-        >
-          <span className="nav-item-hover absolute top-0 left-0 z-0 h-full w-full rounded-ctas-button bg-white" />
-          <div className="nav-item relative z-1 flex h-full w-full items-center px-[1rem] text-nav leading-none text-text-primary">
-            <LogoMark className="w-5 fill-current" />
-            <span ref={wordmarkRef} className="inline-block w-[64px] overflow-x-clip">
-              <Wordmark className={wordmarkClassName} />
-            </span>
-          </div>
-        </Link>
+    <>
+      {open ? (
         <button
           type="button"
-          aria-expanded={open}
-          aria-label={open ? "Close menu" : "Open menu"}
-          className="group relative h-10 cursor-pointer outline-hidden"
+          aria-label="Close menu"
+          className="fixed inset-0 z-40 bg-black/35 tablet:hidden"
           onClick={toggle}
-        >
-          <span className="nav-item-hover absolute top-0 left-0 z-0 h-full w-full rounded-ctas-button bg-white" />
-          <div className="nav-item relative z-1 flex h-full w-full items-center px-[1rem] text-nav leading-none text-text-primary">
-            <span className={cn(open && "opacity-0")}>Menu</span>
-          </div>
-        </button>
-      </div>
-      <div
-        ref={panelRef}
-        className="mobile-nav-extended pointer-events-none relative top-0 left-0 z-1 -mt-10 hidden h-0 w-full overflow-hidden rounded-ctas-button bg-white opacity-0"
+        />
+      ) : null}
+      <nav
+        ref={navRef}
+        aria-label="Main navigation"
+        className={cn(
+          "pointer-events-auto fixed top-4 left-1/2 z-10 w-max -translate-x-1/2 tablet:hidden",
+          open && "z-50 w-[calc(100vw-32px)]",
+        )}
       >
-        <div className="relative left-1/2 w-[calc(100vw-32px)] -translate-x-1/2 px-pad-xs">
-          <div ref={contentRef} className="flex w-full flex-col justify-start pt-32 pb-4">
-            {NAV_LINKS.map((link) => (
-              <Link
-                key={link.label}
-                className="mb-2 block min-h-9 w-full text-left text-heading-lg"
-                href={link.href}
-                onClick={toggle}
-              >
-                <p>{link.label}</p>
-              </Link>
-            ))}
-            <a
-              className="group/button relative isolate mt-[2rem] inline-flex h-11.5 cursor-pointer text-body-sm outline-hidden"
-              href={APP_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <span className="z-10 flex w-full items-center justify-center rounded-ctas-button border-2 border-transparent bg-orange-500 px-[1.4rem] text-text-invert-primary transition-colors group-hover/button:bg-surface-tertiary group-active:bg-black-500">
-                <p>Get started</p>
+        <div
+          className={cn(
+            "pointer-events-none absolute -top-1 -left-1 h-full min-h-12 w-[calc(100%+8px)] rounded-ctas-wrapper border border-solid border-white/10 bg-stone-alpha-400 backdrop-blur-[13px]",
+            open && "h-[calc(100%+8px)]",
+          )}
+        />
+        <div ref={rowRef} className="relative z-2 flex w-max p-0">
+          <Link
+            href="/"
+            className="group relative z-2 h-10 cursor-pointer outline-hidden"
+            aria-label="Medlyn home"
+          >
+            <span className="nav-item-hover absolute top-0 left-0 z-0 h-full w-full rounded-ctas-button bg-white" />
+            <div className="nav-item relative z-1 flex h-full w-full items-center px-[1rem] text-nav leading-none text-text-primary">
+              <LogoMark className="w-5 fill-current" />
+              <span ref={wordmarkRef} className="inline-block w-[64px] overflow-x-clip">
+                <Wordmark className={wordmarkClassName} />
               </span>
-            </a>
+            </div>
+          </Link>
+          <button
+            type="button"
+            aria-expanded={open}
+            aria-label={open ? "Close menu" : "Open menu"}
+            className="group relative h-10 cursor-pointer outline-hidden"
+            onClick={toggle}
+          >
+            <span className="nav-item-hover absolute top-0 left-0 z-0 h-full w-full rounded-ctas-button bg-white" />
+            <div className="nav-item relative z-1 flex h-full w-full items-center px-[1rem] text-nav leading-none text-text-primary">
+              <span className={cn(open && "opacity-0")}>Menu</span>
+            </div>
+          </button>
+        </div>
+        <div
+          ref={panelRef}
+          className="mobile-nav-extended pointer-events-none relative top-0 left-0 z-1 -mt-10 hidden h-0 w-full overflow-hidden rounded-ctas-button bg-white opacity-0"
+        >
+          <div className="relative left-1/2 w-[calc(100vw-32px)] -translate-x-1/2 px-pad-xs">
+            <div ref={contentRef} className="flex w-full flex-col justify-start pt-32 pb-4">
+              {NAV_LINKS.map((link) => (
+                <Link
+                  key={link.label}
+                  className={cn(
+                    "mb-2 block min-h-9 w-full text-left text-heading-lg",
+                    pathname === link.href && "underline decoration-2 underline-offset-4",
+                  )}
+                  href={link.href}
+                  aria-current={pathname === link.href ? "page" : undefined}
+                  onClick={toggle}
+                >
+                  <p>{link.label}</p>
+                </Link>
+              ))}
+              <a
+                className="group/button relative isolate mt-[2rem] inline-flex h-11.5 cursor-pointer text-body-sm outline-hidden"
+                href={APP_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <span className="z-10 flex w-full items-center justify-center rounded-ctas-button border-2 border-transparent bg-orange-500 px-[1.4rem] text-text-invert-primary transition-colors group-hover/button:bg-surface-tertiary group-active:bg-black-500">
+                  <p>Get started</p>
+                </span>
+              </a>
+            </div>
           </div>
         </div>
-      </div>
-      {open && (
-        <button
-          type="button"
-          onClick={toggle}
-          className="absolute top-0 right-1 z-2 block h-10 w-16.5 cursor-pointer justify-center align-middle"
-        >
-          <p className="text-nav">Close</p>
-        </button>
-      )}
-    </nav>
+        {open ? (
+          <button
+            type="button"
+            onClick={toggle}
+            className="absolute top-0 right-1 z-2 block h-10 w-16.5 cursor-pointer justify-center align-middle"
+          >
+            <p className="text-nav">Close</p>
+          </button>
+        ) : null}
+      </nav>
+    </>
   );
 }
 

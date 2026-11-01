@@ -1,3 +1,4 @@
+import { company } from "./company";
 import { appUrl, faqQuestions, paperPath, paperTitle, siteDescription, siteUrl } from "./seo";
 
 function pageUrl(path: string): string {
@@ -9,7 +10,10 @@ const pages = [
   { title: "Vision", path: "/vision", note: "Why Medlyn exists" },
   { title: "Research", path: "/research", note: "Technical report and decision model" },
   { title: paperTitle, path: paperPath, note: "PDF of the technical report" },
+  { title: "Blog", path: "/blog", note: "Product notes for clinics and partners" },
   { title: "Book a call", path: "/book", note: "Add Medlyn to a clinic system" },
+  { title: "Impressum", path: "/impressum", note: "Legal notice" },
+  { title: "Privacy", path: "/privacy", note: "Privacy notice" },
   { title: "Demo", path: appUrl.href, note: "Try the demo on demo records" },
 ];
 
@@ -27,6 +31,8 @@ const intro = `${siteDescription}
 Medlyn built its own decision model. It checks a statement against the passage it cites before that statement is shown. The method and the measurements are in the technical report. The results are agent-reviewed, not clinician-reviewed, and do not establish clinical efficacy.
 
 Medlyn is supported by Austrian Startups, IM, AIM Austria, and public funding.
+
+Medlyn is built by ${company.legalName}, the company behind ${company.brandName}.
 
 The public demo uses demo records only. A clinic that wants Medlyn in its own system can book a call.`;
 

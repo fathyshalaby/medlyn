@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { company } from "@/lib/company";
 import { ChevronRightIcon, LogoMark, Wordmark } from "./icons";
 import { DEMO_LINK, type PublicLink } from "./site-config";
 import { SupportLine } from "./support-line";
@@ -7,7 +8,7 @@ const LINK_GROUPS: { title: string; className: string; links: PublicLink[] }[] =
   {
     title: "Product",
     className: "min-w-[49%] tablet:min-w-0",
-    links: [DEMO_LINK, { label: "Book a call", href: "/book" }],
+    links: [DEMO_LINK, { label: "Book a call", href: "/book" }, { label: "Blog", href: "/blog" }],
   },
   {
     title: "Company",
@@ -15,6 +16,8 @@ const LINK_GROUPS: { title: string; className: string; links: PublicLink[] }[] =
     links: [
       { label: "Vision", href: "/vision" },
       { label: "Research", href: "/research" },
+      { label: "Impressum", href: "/impressum" },
+      { label: "Privacy", href: "/privacy" },
     ],
   },
 ];
@@ -25,8 +28,8 @@ const linkClassName =
 export function Footer() {
   return (
     <>
-      <footer className="footer relative z-[1] mb-[30vw] w-full rounded-b-[3.2rem] bg-background-secondary tablet:mb-[29vw] tablet:h-[517px] tablet:min-h-[517px] tablet:rounded-b-[5.6rem] desktop:rounded-b-[6.4rem]">
-        <div className="relative z-[1] mx-auto flex min-h-[56svh] w-full max-w-[2120px] flex-col px-[1.6rem] pt-[3.2rem] pb-[2.4rem] tablet:h-[517px] tablet:min-h-[517px] tablet:flex-row tablet:justify-between tablet:px-[3.2rem] desktop:pt-[8rem]">
+      <footer className="footer relative z-[1] mb-[30vw] w-full rounded-b-[3.2rem] bg-background-secondary tablet:mb-[29vw] tablet:min-h-[517px] tablet:rounded-b-[5.6rem] desktop:rounded-b-[6.4rem]">
+        <div className="relative z-[1] mx-auto flex min-h-[56svh] w-full max-w-[2120px] flex-col px-[1.6rem] pt-[3.2rem] pb-[2.4rem] tablet:min-h-[517px] tablet:flex-row tablet:justify-between tablet:px-[3.2rem] desktop:pt-[8rem]">
           <div className="mb-[3.2rem]">
             <p className="mb-[1.6rem] text-heading-lg tablet:mb-[2.4rem] desktop:mb-[3.2rem]">
               AI that prepares the
@@ -50,7 +53,7 @@ export function Footer() {
               </span>
             </a>
           </div>
-          <div className="flex h-full flex-1 flex-col gap-[6.4rem] tablet:flex-none tablet:justify-between tablet:gap-x-[10rem] tablet:pr-[7.4rem]">
+          <div className="flex h-full flex-1 flex-col gap-[4.8rem] tablet:flex-none tablet:justify-between tablet:gap-x-[10rem] tablet:pr-[7.4rem]">
             <div className="footer-links flex w-full flex-wrap justify-between gap-x-0 gap-y-[0.5rem] tablet:gap-[7.4rem] desktop:gap-[15rem]">
               {LINK_GROUPS.map((group) => (
                 <dl key={group.title} className={group.className}>
@@ -80,6 +83,18 @@ export function Footer() {
               <LogoMark className="w-[3.4rem] fill-current tablet:mb-[1.2rem] tablet:w-[4.3rem]" />
               <div className="flex flex-col items-start gap-[0.8rem]">
                 <p className="text-label-lg">© 2026 Medlyn.</p>
+                <p className="max-w-[36rem] text-body-sm text-text-secondary">
+                  Built by {company.legalName}, the company behind{" "}
+                  <a
+                    className={linkClassName}
+                    href={company.brandUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {company.brandName}
+                  </a>
+                  .
+                </p>
                 <SupportLine className="text-left" />
               </div>
             </div>

@@ -1,3 +1,5 @@
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import localFont from "next/font/local";
 import { siteMetadata, siteViewport } from "@/lib/seo";
 import "./globals.css";
@@ -45,7 +47,11 @@ export default function RootLayout({
       className={`${dmSans.variable} ${dmMono.variable} ${abcMarist.variable} antialiased`}
     >
       <link rel="alternate" href="/llms.txt" title="LLMs" type="text/plain" />
-      <body className="bg-background-primary font-body antialiased">{children}</body>
+      <body className="bg-background-primary font-body antialiased">
+        {children}
+        <Analytics />
+        <SpeedInsights />
+      </body>
     </html>
   );
 }
