@@ -32,7 +32,7 @@ Medlyn built its own decision model. It checks a statement against the passage i
 
 Medlyn is supported by Austrian Startups, IM, AIM Austria, and public funding.
 
-Medlyn is built by ${company.legalName}, the company behind ${company.brandName}.
+Medlyn is operated by ${company.legalName}.
 
 The public demo uses demo records only. A clinic that wants Medlyn in its own system can book a call.`;
 

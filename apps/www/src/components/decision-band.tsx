@@ -18,7 +18,7 @@ export function DecisionBand() {
         </Link>
         .
       </p>
-      <SupportLine className="mx-auto mt-[1.6rem] max-w-[76rem]" />
+      <SupportLine className="mx-auto mt-[2.4rem] max-w-[76rem]" />
     </section>
   );
 }

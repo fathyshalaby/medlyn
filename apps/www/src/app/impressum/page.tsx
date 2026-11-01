@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { SiteFrame } from "@/components/site-frame";
 import { company } from "@/lib/company";
 import { pageMetadata } from "@/lib/seo";
@@ -34,29 +35,30 @@ export default function ImpressumPage() {
           </section>
           <section>
             <h2 className="mb-[0.8rem] text-body-lg text-text-primary">Contact</h2>
-            <p>
-              <a
-                className="rounded-[0.4rem] underline underline-offset-2 outline-hidden focus-visible:border-2 focus-visible:border-blue-500"
-                href={`mailto:${company.email}`}
-              >
-                {company.email}
-              </a>
-            </p>
+            {company.email ? (
+              <p>
+                <a
+                  className="rounded-[0.4rem] underline underline-offset-2 outline-hidden focus-visible:border-2 focus-visible:border-blue-500"
+                  href={`mailto:${company.email}`}
+                >
+                  {company.email}
+                </a>
+              </p>
+            ) : (
+              <p>
+                Book a call on this site:{" "}
+                <Link
+                  className="rounded-[0.4rem] underline underline-offset-2 outline-hidden focus-visible:border-2 focus-visible:border-blue-500"
+                  href="/book"
+                >
+                  /book
+                </Link>
+              </p>
+            )}
           </section>
           <section>
             <h2 className="mb-[0.8rem] text-body-lg text-text-primary">Product</h2>
-            <p>
-              Medlyn is a product of {company.legalName}, also known for{" "}
-              <a
-                className="rounded-[0.4rem] underline underline-offset-2 outline-hidden focus-visible:border-2 focus-visible:border-blue-500"
-                href={company.brandUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {company.brandName}
-              </a>
-              .
-            </p>
+            <p>Medlyn is a product of {company.legalName}.</p>
           </section>
           {company.vatId ? (
             <section>

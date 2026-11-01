@@ -1,17 +1,13 @@
-/** Public company details for Impressum and site attribution. */
+/** Public company details for Impressum. Medlyn stays separate from other products. */
 
 export const company = {
   legalName: "influence solutions fm GmbH",
   productName: "Medlyn",
-  brandName: "Specky",
-  brandUrl: "https://www.specky.space/",
   registerNumber: "FN 675374y",
   court: "Handelsgericht Wien",
   addressLines: ["Gemeindeaugasse 22/2", "1220 Wien", "Austria"],
   managingDirector: "Mahmoud Shalaby",
-  email: "customer-support@specky.space",
+  /** Optional public contact email. Leave null to point people at /book instead. */
+  email: null as string | null,
   vatId: null as string | null,
 };
-
-export const companySupportLine =
-  "Medlyn is built by influence solutions fm GmbH, the company behind Specky.";

@@ -84,18 +84,9 @@ export function Footer() {
               <div className="flex flex-col items-start gap-[0.8rem]">
                 <p className="text-label-lg">© 2026 Medlyn.</p>
                 <p className="max-w-[36rem] text-body-sm text-text-secondary">
-                  Built by {company.legalName}, the company behind{" "}
-                  <a
-                    className={linkClassName}
-                    href={company.brandUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {company.brandName}
-                  </a>
-                  .
+                  Operated by {company.legalName}.
                 </p>
-                <SupportLine className="text-left" />
+                <SupportLine className="items-start" />
               </div>
             </div>
           </div>

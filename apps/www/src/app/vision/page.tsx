@@ -38,7 +38,7 @@ export default function VisionPage() {
             Read the research
           </CtaLink>
         </div>
-        <SupportLine className="mt-[4.8rem] max-w-[68rem] text-left" />
+        <SupportLine className="mt-[4.8rem] max-w-[68rem] items-start" />
       </article>
     </SiteFrame>
   );

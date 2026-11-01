@@ -38,7 +38,7 @@ export default function ResearchPage() {
         <div className="mt-[4.8rem]">
           <CtaLink href={paperPath}>Read the paper</CtaLink>
         </div>
-        <SupportLine className="mt-[4.8rem] max-w-[68rem] text-left" />
+        <SupportLine className="mt-[4.8rem] max-w-[68rem] items-start" />
       </article>
     </SiteFrame>
   );

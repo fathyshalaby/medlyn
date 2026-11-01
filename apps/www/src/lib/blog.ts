@@ -32,7 +32,7 @@ export const blogPosts: BlogPost[] = [
     paragraphs: [
       "Medlyn started as a focused clinical documentation prototype: one clinician, one task, source-linked patient facts. The product still lives by that boundary.",
       "The public site is now the front door for warm leads. Clinics can open the demo, read the research, and book a call about adding Medlyn to their record system. The demo remains on demo records.",
-      "Medlyn is built by influence solutions fm GmbH, the company behind Specky. Specky is the AI product workspace. Medlyn is the clinical brief product.",
+      "Medlyn is operated by influence solutions fm GmbH. The public site is the front door for clinics that want to try the demo and talk about bringing the brief into their systems.",
     ],
   },
 ];

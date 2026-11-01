@@ -44,12 +44,13 @@ export default function PrivacyPage() {
             <h2 className="mb-[0.8rem] text-body-lg text-text-primary">Your rights</h2>
             <p>
               Depending on applicable law, you may ask for access, correction, deletion, or
-              restriction of personal data we hold about you. Contact{" "}
+              restriction of personal data we hold about you. Write to {company.legalName} at the
+              address below, or use{" "}
               <a
                 className="rounded-[0.4rem] underline underline-offset-2 outline-hidden focus-visible:border-2 focus-visible:border-blue-500"
-                href={`mailto:${company.email}`}
+                href="/book"
               >
-                {company.email}
+                Book a call
               </a>
               .
             </p>
