@@ -83,7 +83,7 @@ export function Hero() {
   const sectionRef = useRef<HTMLElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isZoomed, setIsZoomed] = useState(false);
-  const { setBgTheme } = useNav();
+  const { setBgTheme, menuOpen } = useNav();
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -168,7 +168,9 @@ export function Hero() {
       <div
         className={cn(
           "absolute bottom-[1.6rem] transition-[opacity,transform] duration-500 ease-out",
-          isZoomed ? "pointer-events-none translate-y-4 opacity-0" : "translate-y-0 opacity-100",
+          isZoomed || menuOpen
+            ? "pointer-events-none translate-y-4 opacity-0"
+            : "translate-y-0 opacity-100",
         )}
       >
         <HeroActions />

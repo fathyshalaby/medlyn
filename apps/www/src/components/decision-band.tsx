@@ -9,7 +9,7 @@ export function DecisionBand() {
   return (
     <section
       aria-label="Decision model and support"
-      className="bg-background-primary px-[1.6rem] pt-[6.4rem] text-center tablet:px-[3.2rem]"
+      className="scroll-mt-[9.6rem] bg-background-primary px-[1.6rem] pt-[8rem] text-center tablet:px-[3.2rem] tablet:pt-[9.6rem]"
     >
       <p className="mx-auto max-w-[76rem] text-body-lg text-text-primary">
         {decisionModelSentence}{" "}

@@ -23,7 +23,7 @@ export function ProductIntro() {
     <section
       id="product"
       aria-label="What Medlyn is"
-      className="scroll-mt-[8rem] bg-background-primary px-[1.6rem] pt-[8rem] tablet:px-[3.2rem] tablet:pt-[10rem]"
+      className="scroll-mt-[9.6rem] bg-background-primary px-[1.6rem] pt-[9.6rem] tablet:px-[3.2rem] tablet:pt-[12rem]"
     >
       <div className="mx-auto max-w-[96rem]">
         <p className="mb-[1.2rem] text-label-lg text-text-secondary">What Medlyn is</p>

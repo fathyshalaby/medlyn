@@ -88,10 +88,12 @@ export function BookingFunnel({
 
   if (!configured) {
     return (
-      <div className="mt-[4.8rem] max-w-[62rem]">
-        <p className="text-body-lg text-text-primary">Booking slots open soon.</p>
-        <p className="mt-[1.2rem] text-body-md text-text-secondary">
-          In the meantime, try the demo. It still uses demo records only.
+      <div className="w-full max-w-[62rem] rounded-[2.4rem] bg-surface-primary px-[2.4rem] py-[2.4rem] tablet:px-[3.2rem] tablet:py-[3.2rem]">
+        <p className="text-label-lg text-text-secondary">Calendar</p>
+        <p className="mt-[1.2rem] text-heading-sm text-text-primary">Booking slots open soon.</p>
+        <p className="mt-[1.2rem] max-w-[48rem] text-body-md text-text-secondary">
+          We are opening clinic call times next. Until then, try the demo — it still uses demo
+          records only.
         </p>
         <a
           className={`${buttonClass} mt-[2.4rem]`}
@@ -106,7 +108,7 @@ export function BookingFunnel({
   }
 
   return (
-    <div className="mt-[4.8rem]">
+    <div className="w-full">
       <form className="grid max-w-[62rem] gap-[1.6rem]" onSubmit={onSubmit}>
         <Field id="name" label="Name" type="text" autoComplete="name" />
         <Field id="email" label="Work email" type="email" autoComplete="email" />

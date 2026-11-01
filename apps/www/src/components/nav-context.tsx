@@ -9,6 +9,8 @@ type NavState = {
   setCollapsed: (collapsed: boolean) => void;
   bgTheme: NavTheme;
   setBgTheme: (theme: NavTheme) => void;
+  menuOpen: boolean;
+  setMenuOpen: (open: boolean) => void;
 };
 
 const NavContext = createContext<NavState>({
@@ -16,14 +18,19 @@ const NavContext = createContext<NavState>({
   setCollapsed: () => {},
   bgTheme: "light",
   setBgTheme: () => {},
+  menuOpen: false,
+  setMenuOpen: () => {},
 });
 
 export function NavProvider({ children }: { children: ReactNode }) {
   const [collapsed, setCollapsed] = useState(false);
   const [bgTheme, setBgTheme] = useState<NavTheme>("light");
+  const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <NavContext value={{ collapsed, setCollapsed, bgTheme, setBgTheme }}>{children}</NavContext>
+    <NavContext value={{ collapsed, setCollapsed, bgTheme, setBgTheme, menuOpen, setMenuOpen }}>
+      {children}
+    </NavContext>
   );
 }
 

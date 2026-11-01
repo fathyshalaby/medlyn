@@ -120,7 +120,8 @@
 @custom-variant supports-hover (@media (hover: hover));
 
 html {
-  scroll-padding-top: 8rem;
+  /* Fixed nav is top-4 + ~4.8rem tall; keep hash targets clear of it. */
+  scroll-padding-top: 9.6rem;
 }
 
 @theme {

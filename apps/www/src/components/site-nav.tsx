@@ -84,8 +84,9 @@ function NavItem({
       <span
         className={cn(
           "nav-item-hover absolute top-0 left-0 z-0 h-full w-full rounded-[12px] transition-[background-color] duration-300 ease-out group-active:bg-(color:--nav-item-pressed)",
-          idle && "bg-(color:--nav-item-bg)",
-          active && idle && "ring-1 ring-black/10",
+          // Fill only the orange CTA and the current page; idle white pills clutter the bar.
+          idle && (theme === "orange" || active) && "bg-(color:--nav-item-bg)",
+          active && idle && theme !== "orange" && "ring-1 ring-black/10",
           "group-focus-visible:border-2 group-focus-visible:border-blue-500 group-focus-visible:shadow-[0_0_0_3px_rgba(66,181,220,0.30)]",
         )}
       />
@@ -237,7 +238,7 @@ function DesktopNav({
 
 function MobileNav() {
   const pathname = usePathname();
-  const { collapsed } = useNav();
+  const { collapsed, setMenuOpen } = useNav();
   const [open, setOpen] = useState(false);
   const navRef = useRef<HTMLElement>(null);
   const rowRef = useRef<HTMLDivElement>(null);
@@ -254,6 +255,11 @@ function MobileNav() {
       ease: EASE.power4Out,
     });
   }, [collapsed, open]);
+
+  useEffect(() => {
+    setMenuOpen(open);
+    return () => setMenuOpen(false);
+  }, [open, setMenuOpen]);
 
   useEffect(() => {
     if (!open) return;
@@ -331,7 +337,7 @@ function MobileNav() {
         <button
           type="button"
           aria-label="Close menu"
-          className="fixed inset-0 z-40 bg-black/35 tablet:hidden"
+          className="fixed inset-0 z-40 bg-black/60 tablet:hidden"
           onClick={toggle}
         />
       ) : null}
